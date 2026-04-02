@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cinematic Mumbai Weather</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  background: url('https://i.redd.it/znhwms9alp3b1.jpg') no-repeat center center/cover;
+}
+
+/* Dark overlay */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 0;
+}
+
+/* Rain effect */
+.rain {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.15) 0px,
+    rgba(255,255,255,0.15) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  animation: rainFall 0.5s linear infinite;
+  z-index: 1;
+}
+
+@keyframes rainFall {
+  0% { background-position: 0 -100px; }
+  100% { background-position: 0 100px; }
+}
+
+/* Weather panel */
+.weather-panel {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.05);
+  border-radius: 30px;
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255,215,0,0.4);
+  padding: 40px 50px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 60px rgba(255,215,0,0.3), 0 10px 40px rgba(0,0,0,0.6);
+}
+
+/* City name */
+.city {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 0 0 30px rgba(255,215,0,0.7);
+}
+
+/* Current weather */
+.current-weather {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.weather-icon {
+  font-size: 6rem;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%,100% { transform: translateY(0);}
+  50% { transform: translateY(-15px);}
+}
+
+.temp {
+  font-size: 3.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffd700, #ff7a18);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255,215,0,0.7);
+}
+
+.condition {
+  font-size: 1.3rem;
+  margin-top: 6px;
+  text-shadow: 0 0 15px rgba(255,215,0,0.5);
+}
+
+/* Details section */
+.details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: 1rem;
+}
+
+.details div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.details div span:first-child {
+  font-weight: 600;
+}
+
+/* Forecast cards */
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 12px;
+}
+
+.forecast-day {
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.forecast-day:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(255,215,0,0.6);
+}
+
+.forecast-day .day {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.forecast-day .icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.forecast-day .temp {
+  font-weight: 600;
+  background: linear-gradient(90deg, #ffd700, #ff7a18);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Footer text glow */
+.weather-panel::after {
+  content: 'Cinematic Mumbai Monsoon';
+  display: block;
+  margin-top: 25px;
+  font-size: 0.8rem;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+</style>
+</head>
+<body>
+
+<div class="rain"></div>
+
+<div class="weather-panel">
+  <div class="city">Mumbai, India</div>
+
+  <div class="current-weather">
+    <div class="weather-icon">🌧️</div>
+    <div>
+      <div class="temp">32°C</div>
+      <div class="condition">Monsoon Rain</div>
+    </div>
+  </div>
+
+  <div class="details">
+    <div>
+      <span>Humidity</span>
+      <span>85%</span>
+    </div>
+    <div>
+      <span>Wind</span>
+      <span>18 km/h</span>
+    </div>
+    <div>
+      <span>Feels Like</span>
+      <span>34°C</span>
+    </div>
+  </div>
+
+  <div class="forecast">
+    <div class="forecast-day">
+      <div class="day">Mon</div>
+      <div class="icon">🌧️</div>
+      <div class="temp">31°C</div>
+    </div>
+    <div class="forecast-day">
+      <div class="day">Tue</div>
+      <div class="icon">⛈️</div>
+      <div class="temp">33°C</div>
+    </div>
+    <div class="forecast-day">
+      <div class="day">Wed</div>
+      <div class="icon">🌦️</div>
+      <div class="temp">32°C</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
