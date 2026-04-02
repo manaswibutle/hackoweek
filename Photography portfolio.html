@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lens & Light | Photography Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, #f0e6d3 50%, #c9a959 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px 80px;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* Gallery Item */
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            height: 350px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Special Sizes */
+        .gallery-item:nth-child(1) { grid-row: span 2; height: 725px; }
+        .gallery-item:nth-child(4) { grid-column: span 2; }
+
+        .gallery-item:hover {
+            transform: scale(1.03) translateY(-10px);
+            z-index: 10;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.15);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .overlay p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            transform: translateY(20px);
+            transition: transform 0.4s 0.1s ease;
+        }
+
+        .gallery-item:hover .overlay h3,
+        .gallery-item:hover .overlay p {
+            transform: translateY(0);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            transform: scale(0.8) rotate(-2deg);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .lightbox.active img {
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* Lightbox Controls */
+        .lb-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2001;
+        }
+
+        .lb-close:hover {
+            color: #c9a959;
+            transform: rotate(90deg);
+        }
+
+        .lb-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3.5rem;
+            cursor: pointer;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lb-nav:hover {
+            background: rgba(201, 169, 89, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lb-prev { left: 25px; }
+        .lb-next { right: 25px; }
+
+        .lb-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            background: rgba(201, 169, 89, 0.3);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .gallery { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item:nth-child(1) { grid-row: span 1; height: 350px; }
+            .gallery-item:nth-child(4) { grid-column: span 1; }
+        }
+
+        @media (max-width: 600px) {
+            .gallery { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2.5rem; }
+            .gallery-container { padding: 20px; }
+            .lb-nav { width: 50px; height: 50px; font-size: 2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background -->
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Lens & Light</h1>
+        <p>Photography Portfolio</p>
+    </header>
+
+    <!-- Gallery - 7 Photos -->
+    <div class="gallery-container">
+        <div class="gallery">
+            
+            <!-- Photo 1 - Tall -->
+            <div class="gallery-item" onclick="openLightbox(0)">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Mountains">
+                <div class="overlay">
+                    <h3>Majestic Peaks</h3>
+                    <p>Switzerland</p>
+                </div>
+            </div>
+
+            <!-- Photo 2 -->
+            <div class="gallery-item" onclick="openLightbox(1)">
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" alt="Nature">
+                <div class="overlay">
+                    <h3>Morning Light</h3>
+                    <p>Nature</p>
+                </div>
+            </div>
+
+            <!-- Photo 3 -->
+            <div class="gallery-item" onclick="openLightbox(2)">
+                <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80" alt="Forest">
+                <div class="overlay">
+                    <h3>Forest Path</h3>
+                    <p>Oregon</p>
+                </div>
+            </div>
+
+            <!-- Photo 4 - Wide -->
+            <div class="gallery-item" onclick="openLightbox(3)">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80" alt="Fog">
+                <div class="overlay">
+                    <h3>Misty Mountains</h3>
+                    <p>Adventure</p>
+                </div>
+            </div>
+
+            <!-- Photo 5 -->
+            <div class="gallery-item" onclick="openLightbox(4)">
+                <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=800&q=80" alt="Lake">
+                <div class="overlay">
+                    <h3>Serene Waters</h3>
+                    <p>Canada</p>
+                </div>
+            </div>
+
+            <!-- Photo 6 -->
+            <div class="gallery-item" onclick="openLightbox(5)">
+                <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80" alt="Hills">
+                <div class="overlay">
+                    <h3>Green Valleys</h3>
+                    <p>Ireland</p>
+                </div>
+           >
+            </div>
+
+            <!-- Photo 7 - Wide -->
+            <div class="gallery-item" onclick="openLightbox(6)">
+                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Ocean">
+                <div class="overlay">
+                    <h3>Ocean Dreams</h3>
+                    <p>California</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeOnBackground(event)">
+        <span class="lb-close" onclick="closeLightbox()">&times;</span>
+        <span class="lb-nav lb-prev" onclick="changeImage(-1)">&#10094;</span>
+        <img src="" alt="Full Image" id="lightbox-img">
+        <span class="lb-nav lb-next" onclick="changeImage(1)">&#10095;</span>
+        <div class="lb-counter" id="lb-counter">01 / 07</div>
+    </div>
+
+    <script>
+        // 7 High Quality Nature Images
+        const images = [
+            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=90",
+            "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1920&q=90",
+            "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1920&q=90",
+            "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1920&q=90",
+            "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1920&q=90",
+            "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=90",
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1920&q=90"
+        ];
+
+        let currentIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const counter = document.getElementById('lb-counter');
+
+        // Open Lightbox
+        function openLightbox(index) {
+            currentIndex = index;
+            lightboxImg.src = images[currentIndex];
+            counter.textContent = String(currentIndex + 1).padStart(2, '0') + " / " + String(images.length).padStart(2, '0');
+            lightbox.classList.add('active');
+        }
+
+        // Close Lightbox
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // Change Image
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = images.length - 1;
+            if (currentIndex >= images.length) currentIndex = 0;
+            
+            lightboxImg.src = images[currentIndex];
+            counter.textContent = String(currentIndex + 1).padStart(2, '0') + " / " + String(images.length).padStart(2, '0');
+        }
+
+        // Close on Background Click
+        function closeOnBackground(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
+    </script>
+
+</body>
+</html>
