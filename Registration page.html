@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ENTHUSIA 5.0 | 2K26 Registration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1504805572947-34fad45aed93');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+/* FORM */
+.form-box{
+    width:100%;
+    max-width:550px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    border-radius:25px;
+    padding:40px;
+    box-shadow:0 0 40px rgba(255,215,0,0.3);
+    color:#fff;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.form-box h1{
+    text-align:center;
+    font-size:2.6rem;
+    font-weight:800;
+    background:linear-gradient(45deg,#ffd700,#ff6a00,#ff0080);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.form-box p{
+    text-align:center;
+    margin:12px 0 30px;
+    font-size:0.95rem;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    font-size:0.85rem;
+    margin-bottom:6px;
+    display:block;
+    color:#ffd700;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+    width:100%;
+    padding:13px 16px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,0.9);
+}
+
+textarea{resize:none;height:90px;}
+
+.row{
+    display:flex;
+    gap:15px;
+}
+
+.row .input-group{flex:1;}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:40px;
+    font-size:1.05rem;
+    font-weight:700;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ffd700,#ff6a00,#ff0080);
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 20px rgba(255,105,180,0.8);
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    font-size:0.8rem;
+    opacity:0.85;
+}
+
+/* POPUP */
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    visibility:hidden;
+    opacity:0;
+    transition:0.3s;
+}
+
+.popup.active{
+    visibility:visible;
+    opacity:1;
+}
+
+.popup-box{
+    background:#111;
+    color:#fff;
+    padding:35px;
+    border-radius:20px;
+    text-align:center;
+    max-width:400px;
+    width:90%;
+    transform:scale(0.7);
+    animation:pop 0.4s forwards;
+    box-shadow:0 0 30px #ffd700;
+}
+
+@keyframes pop{
+    to{transform:scale(1);}
+}
+
+.popup-box h2{
+    color:#ffd700;
+    margin-bottom:10px;
+}
+
+.popup-box p{
+    font-size:0.9rem;
+    margin-bottom:20px;
+}
+
+.popup-box button{
+    padding:10px 25px;
+    border-radius:30px;
+    background:#ffd700;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+}
+
+@media(max-width:500px){
+    .row{flex-direction:column;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h1>ENTHUSIA 5.0</h1>
+    <p>🔥 College Cultural Fest • 2K26 🔥</p>
+
+    <form id="regForm">
+        <div class="row">
+            <div class="input-group">
+                <label>First Name</label>
+                <input type="text" required>
+            </div>
+            <div class="input-group">
+                <label>Last Name</label>
+                <input type="text" required>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" required>
+        </div>
+
+        <div class="row">
+            <div class="input-group">
+                <label>Phone</label>
+                <input type="tel" required>
+            </div>
+            <div class="input-group">
+                <label>College</label>
+                <input type="text" required>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Select Event</label>
+            <select required>
+                <option value="">-- Choose Event --</option>
+                <option>Dance</option>
+                <option>Singing</option>
+                <option>Drama</option>
+                <option>Fashion Show</option>
+                <option>DJ Night</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Your Talent</label>
+            <textarea placeholder="Describe your talent..."></textarea>
+        </div>
+
+        <button type="submit">Register Now 🚀</button>
+    </form>
+
+    <div class="footer">
+        © 2026 ENTHUSIA 5.0
+    </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <h2>🎉 Registration Successful!</h2>
+        <p>You are officially registered for <strong>ENTHUSIA 5.0 – 2K26</strong>.<br>
+        See you at the fest!</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<script>
+const form = document.getElementById("regForm");
+const popup = document.getElementById("popup");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+    popup.classList.add("active");
+    form.reset();
+});
+
+function closePopup(){
+    popup.classList.remove("active");
+}
+</script>
+
+</body>
+</html>
