@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA Explorer Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Body & fonts */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #002147, #ffffff);
+    color: #111;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    z-index: 1;
+    text-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    z-index: 1;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Blog posts */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.blog-post {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.blog-post:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.blog-post img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.blog-post-content {
+    padding: 20px;
+}
+.blog-post-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #002147;
+}
+.blog-post-content p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+.read-more {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background: #bf0a30;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+.read-more:hover {
+    background: #002147;
+}
+
+/* Footer */
+footer {
+    background: #002147;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+footer p {
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 { font-size: 2.2rem; }
+    .blog-post img { height: 180px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>USA Explorer</h1>
+        <p>Your ultimate guide to traveling, culture, and life in the USA</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="blog-grid">
+        <!-- New York City -->
+        <div class="blog-post">
+            <img src="https://www.historyhit.com/app/uploads/bis-images/5150130/Statue-of-Liberty-e1632495792514-788x537.jpg?x15201" alt="Statue of Liberty and NYC skyline">
+            <div class="blog-post-content">
+                <h3>Exploring New York City</h3>
+                <p>The Big Apple is alive with culture, food, and iconic landmarks like the Statue of Liberty and Times Square. Discover what makes NYC unique.</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+        </div>
+
+        <!-- Grand Canyon -->
+        <div class="blog-post">
+            <img src="https://media.cntraveler.com/photos/5ebeef63f52f4c0911cac483/master/pass/GrandCanyonNationalPark-2020-GettyImages-858637934.jpg" alt="Grand Canyon National Park">
+            <div class="blog-post-content">
+                <h3>Adventures in the Grand Canyon</h3>
+                <p>Experience breathtaking views and epic hikes at the Grand Canyon National Park — a natural wonder of immense geological beauty.</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+        </div>
+
+        <!-- San Francisco -->
+        <div class="blog-post">
+            <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80" alt="Golden Gate Bridge, San Francisco">
+            <div class="blog-post-content">
+                <h3>San Francisco: Golden Gate and Beyond</h3>
+                <p>From the iconic Golden Gate Bridge to vibrant waterfronts and cultural districts, San Francisco offers stunning views and unforgettable experiences.</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+        </div>
+
+        <!-- Las Vegas -->
+        <div class="blog-post">
+            <img src="https://onlybyland.com/wp-content/uploads/2023/03/lasvegasnightlifefeature.jpg" alt="Las Vegas Nightlife">
+            <div class="blog-post-content">
+                <h3>Las Vegas Nightlife</h3>
+                <p>The entertainment capital of the USA lights up at night with dazzling casinos, vibrant shows, and endless nightlife on the Strip.</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 USA Explorer Blog | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
