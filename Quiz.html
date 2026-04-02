@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shivaji Maharaj Quiz</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: radial-gradient(#ffcc70, #ff5e62);
+        }
+
+        /* Heading */
+        h2 {
+            font-size: 40px;
+            text-align: center;
+            background: linear-gradient(90deg, #FFD700, #FF4500, #FF6347, #FFA500);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 5s ease infinite;
+            margin-top: 30px;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Quiz container */
+        .quiz-container {
+            width: 60%;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        #question {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            text-align: left;
+            margin: 12px 0;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 30px;
+            border: none;
+            background: #FFD700;
+            color: #FF4500;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #FF4500;
+            color: #FFD700;
+            transform: scale(1.05);
+        }
+
+        #scoreboard {
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.3);
+            font-size: 18px;
+        }
+
+        #answers {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .correct { color: #00FF00; font-weight: bold; }
+        .wrong { color: #FF4500; font-weight: bold; }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #FFD700;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        /* Timer */
+        #timer {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: float 15s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-1200px) translateX(200px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h2>🚩 Shivaji Maharaj Quiz 🚩</h2>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div id="timer">Time Left: <span id="time">15</span>s</div>
+
+    <div id="quiz">
+        <h3 id="question"></h3>
+        <div id="options"></div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div id="scoreboard"></div>
+    <div id="answers"></div>
+</div>
+
+<script>
+/* Particle background */
+for(let i=0; i<60; i++){
+    let particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.top = Math.random() * window.innerHeight + 'px';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.width = particle.style.height = (Math.random()*4+2)+'px';
+    particle.style.animationDuration = (10+Math.random()*10)+'s';
+    particle.style.opacity = Math.random();
+    document.body.appendChild(particle);
+}
+
+/* Sound effects */
+const correctSound = new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg');
+const wrongSound = new Audio('https://actions.google.com/sounds/v1/cartoon/boing.ogg');
+
+/* Quiz Data */
+const quizData = [
+    {question: "1. In which year was Chhatrapati Shivaji Maharaj born?", options: ["1627","1630","1645","1650"], answer:"1630"},
+    {question: "2. What was the name of Shivaji Maharaj’s mother?", options: ["Jijabai","Radhabai","Kashibai","Yesubai"], answer:"Jijabai"},
+    {question: "3. What was the name of Shivaji Maharaj’s guru?", options: ["Samarth Ramdas","Tukaram","Eknath","Namdev"], answer:"Samarth Ramdas"},
+    {question: "4. Where was Shivaji Maharaj crowned in 1674?", options: ["Sinhagad","Raigad","Pratapgad","Torna"], answer:"Raigad"},
+    {question: "5. Which warfare strategy was Shivaji Maharaj famous for?", options: ["Guerrilla Warfare","Naval Warfare","Siege Warfare","Defensive Warfare"], answer:"Guerrilla Warfare"}
+];
+
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
+let timer;
+let timeLeft = 15;
+
+function startTimer() {
+    document.getElementById('time').innerText = timeLeft;
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('time').innerText = timeLeft;
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            alert("Time's up! Moving to next question.");
+            userAnswers.push("No Answer");
+            nextQuestion();
+        }
+    }, 1000);
+}
+
+function loadQuestion(){
+    timeLeft = 15;
+    startTimer();
+
+    let questionElement = document.getElementById("question");
+    let optionsElement = document.getElementById("options");
+
+    questionElement.innerText = quizData[currentQuestion].question;
+    optionsElement.innerHTML = "";
+
+    quizData[currentQuestion].options.forEach(option=>{
+        optionsElement.innerHTML += `
+        <div class="option">
+            <input type="radio" name="option" value="${option}" onclick="checkAnswer('${option}')"> ${option}
+        </div>
+        `;
+    });
+
+    // Update progress bar
+    document.getElementById('progress-bar').style.width = ((currentQuestion)/quizData.length*100) + "%";
+}
+
+function checkAnswer(selected){
+    clearInterval(timer); // stop timer on answer
+    let isCorrect = selected === quizData[currentQuestion].answer;
+    if(isCorrect){
+        score++;
+        correctSound.play();
+        highlightOption(selected, true);
+    } else {
+        wrongSound.play();
+        highlightOption(selected, false);
+    }
+    userAnswers.push(selected);
+}
+
+function highlightOption(selected, correct){
+    let options = document.getElementsByName('option');
+    options.forEach(opt => {
+        if(opt.value === selected){
+            opt.parentElement.style.backgroundColor = correct ? 'rgba(0,255,0,0.3)' : 'rgba(255,0,0,0.3)';
+        }
+        if(opt.value === quizData[currentQuestion].answer){
+            opt.parentElement.style.backgroundColor = 'rgba(0,255,0,0.3)';
+        }
+    });
+}
+
+function nextQuestion(){
+    clearInterval(timer);
+    currentQuestion++;
+    if(currentQuestion<quizData.length) loadQuestion();
+    else showScoreboard();
+}
+
+function showScoreboard(){
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById('progress-bar').style.width = "100%";
+
+    let percentage = (score / quizData.length) * 100;
+    let message = percentage===100 ? "Outstanding! 🚩" :
+                  percentage>=60 ? "Great Job! 👍" : "Keep Learning! 📚";
+
+    let scoreboard = document.getElementById("scoreboard");
+    scoreboard.style.display = "block";
+    scoreboard.innerHTML = `
+        <h3>Scoreboard</h3>
+        <p>Total Questions: ${quizData.length}</p>
+        <p>Your Score: ${score}</p>
+        <p>Percentage: ${percentage}%</p>
+        <p>${message}</p>
+    `;
+
+    // Show answer review
+    let answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "<h3>Answer Review:</h3>";
+    quizData.forEach((q,i)=>{
+        let userAns = userAnswers[i] || "No Answer";
+        let isCorrect = userAns === q.answer;
+        answersDiv.innerHTML += `
+            <p>
+                Q${i+1}: ${q.question}<br>
+                Your Answer: <span class="${isCorrect ? 'correct' : 'wrong'}">${userAns}</span><br>
+                Correct Answer: <span class="correct">${q.answer}</span>
+            </p>
+            <hr>
+        `;
+    });
+}
+
+// Start quiz
+loadQuestion();
+</script>
+
+</body>
+</html>
